@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | AI Study Assistant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #020b17;
+            color: #edf7ff;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .topbar {
+            background: #071a2f;
+            color: white;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+
+        .logo span {
+            color: #66d9ff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #dfeeff;
+            font-size: 0.95rem;
+            transition: 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #66d9ff;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #66d9ff;
+            color: #06182f;
+        }
+
+        .btn-primary:hover {
+            background: #3fc8f5;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #071a2f 0%, #0d2340 48%, #123d75 100%);
+            padding: 90px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(102, 217, 255, 0.18), transparent 30%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(102, 217, 255, 0.12);
+            border: 1px solid rgba(102, 217, 255, 0.35);
+            color: #9feaff;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 3.3rem;
+            line-height: 1.05;
+            margin: 0 0 18px;
+            letter-spacing: -0.05em;
+            color: #ffffff;
+        }
+
+        .hero-text p {
+            font-size: 1.08rem;
+            color: #d7ebff;
+            margin: 0 0 30px;
+            line-height: 1.8;
+            max-width: 610px;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .hero-points {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .mini-stat {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 16px 12px;
+            text-align: center;
+        }
+
+        .mini-stat strong {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .mini-stat span {
+            color: #cfeafc;
+            font-size: 0.75rem;
+        }
+
+        .visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 480px;
+        }
+
+        .robot-scene {
+            position: relative;
+            width: 100%;
+            max-width: 430px;
+            height: 430px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glow {
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            background: radial-gradient(circle, rgba(102,217,255,0.35) 0%, rgba(102,217,255,0.1) 32%, rgba(0,0,0,0) 72%);
+            border-radius: 50%;
+            animation: pulseGlow 3.6s ease-in-out infinite;
+        }
+
+        .robot {
+            position: relative;
+            width: 210px;
+            height: 300px;
+            animation: floatRobot 4s ease-in-out infinite;
+        }
+
+        .antenna {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            height: 42px;
+            background: linear-gradient(#77d9ff, #3ec0ec);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .antenna::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #88efff;
+            border-radius: 50%;
+            left: 50%;
+            top: -10px;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(136,239,255,0.9);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        .head {
+            position: absolute;
+            left: 50%;
+            top: 36px;
+            width: 150px;
+            height: 120px;
+            transform: translateX(-50%);
+            border-radius: 28px;
+            background: linear-gradient(180deg, #dfeaf7 0%, #a9c1d9 60%, #7b8ea7 100%);
+            border: 6px solid rgba(27, 61, 95, 0.8);
+            box-shadow: inset 0 -8px 0 rgba(20, 38, 58, 0.12);
+        }
+
+        .face {
+            position: absolute;
+            inset: 18px 18px 20px;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #101f32, #0a1527);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .eyes {
+            display: flex;
+            gap: 26px;
+            align-items: center;
+        }
+
+        .eyes span {
+            display: block;
+            width: 18px;
+            height: 18px;
+            background: #66d9ff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(102,217,255,0.9);
+            animation: blink 2.3s ease-in-out infinite;
+        }
+
+        .mouth {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 52px;
+            height: 12px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #66d9ff, #8ee8ff);
+        }
+
+        .body {
+            position: absolute;
+            left: 50%;
+            top: 160px;
+            width: 170px;
+            height: 130px;
+            transform: translateX(-50%);
+            border-radius: 28px 28px 22px 22px;
+            background: linear-gradient(180deg, #eaf3ff 0%, #b9d1ea 100%);
+            border: 6px solid rgba(27, 61, 95, 0.8);
+            box-shadow: inset 0 -8px 0 rgba(20, 38, 58, 0.12);
+        }
+
+        .panel {
+            position: absolute;
+            left: 50%;
+            top: 18px;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 70px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #0c1f2e, #132b47);
+            border: 3px solid rgba(146, 206, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #66d9ff;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .panel::before,
+        .panel::after {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #66d9ff;
+            box-shadow: 0 0 12px rgba(102,217,255,0.7);
+        }
+
+        .panel::before {
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .panel::after {
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .arm {
+            position: absolute;
+            top: 170px;
+            width: 26px;
+            height: 110px;
+            background: linear-gradient(180deg, #dfeaf7, #90a8c1);
+            border: 5px solid rgba(27, 61, 95, 0.8);
+            border-radius: 18px;
+        }
+
+        .arm.left {
+            left: 25px;
+            transform: rotate(18deg);
+        }
+
+        .arm.right {
+            right: 25px;
+            transform: rotate(-18deg);
+        }
+
+        .leg {
+            position: absolute;
+            bottom: 0;
+            width: 28px;
+            height: 80px;
+            background: linear-gradient(180deg, #dfeaf7, #95adc5);
+            border: 5px solid rgba(27, 61, 95, 0.8);
+            border-radius: 14px;
+        }
+
+        .leg.left {
+            left: 72px;
+        }
+
+        .leg.right {
+            right: 72px;
+        }
+
+        .section {
+            padding: 86px 0;
+            background: #071a2f;
+        }
+
+        .section.alt {
+            background: #081c34;
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 42px;
+        }
+
+        .section-head h2 {
+            margin: 0 0 12px;
+            font-size: 2.5rem;
+            letter-spacing: -0.04em;
+        }
+
+        .section-head p {
+            margin: 0 auto;
+            max-width: 650px;
+            color: #c8dff4;
+            line-height: 1.7;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 28px 22px;
+            box-shadow: 0 18px 30px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, rgba(102,217,255,0.25), rgba(80,122,255,0.2));
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            margin: 0 0 12px;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            margin: 0;
+            color: #cfe3f9;
+            line-height: 1.7;
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 36px;
+        }
+
+        .step {
+            position: relative;
+            padding: 26px 22px 22px;
+            background: rgba(11, 25, 40, 0.82);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -14px;
+            left: 20px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #66d9ff;
+            color: #081a2d;
+            font-weight: 800;
+        }
+
+        .step h4 {
+            margin: 12px 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .step p {
+            margin: 0;
+            color: #d4e6ff;
+            line-height: 1.7;
+        }
+
+        .cta-wrap {
+            text-align: center;
+            padding: 34px 20px 0;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(102,217,255,0.12), rgba(18,61,117,0.2));
+            border: 1px solid rgba(102,217,255,0.25);
+            border-radius: 24px;
+            padding: 48px 28px;
+        }
+
+        .cta-box h3 {
+            margin: 0 0 16px;
+            font-size: 2.1rem;
+            letter-spacing: -0.04em;
+        }
+
+        .cta-box p {
+            margin: 0 auto 26px;
+            max-width: 640px;
+            color: #d0ebff;
+            line-height: 1.8;
+        }
+
+        .footer {
+            background: #040d18;
+            color: #c7d8ef;
+            text-align: center;
+            padding: 28px 20px;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(0.96); opacity: 0.85; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        @keyframes floatRobot {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes blink {
+            0%, 45%, 100% { opacity: 1; }
+            48%, 52% { opacity: 0.2; }
+        }
+
+        @media (max-width: 960px) {
+            .hero-inner,
+            .feature-grid,
+            .flow {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                flex-direction: column;
+            }
+
+            .hero-points {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+
+            .section-head h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .cta-row {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="container nav">
+            <a href="/" class="logo">AI <span>Study</span></a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+            </nav>
+            <div class="nav-actions">
+                <a class="btn btn-secondary" href="/login">Log in</a>
+                <a class="btn btn-primary" href="/register">Get started</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-inner">
+                <div class="hero-text">
+                    <span class="tag">Smart learning</span>
+                    <h1>Study smarter with an AI tutor built for your PDF notes.</h1>
+                    <p>
+                        Upload any subject PDF and let AI Study Assistant turn it into memorable summaries,
+                        quick revision ideas, and interactive quizzes that help you retain information faster.
+                    </p>
+
+                    <div class="cta-row">
+                        <a class="btn btn-primary" href="/login">Upload PDF</a>
+                        <a class="btn btn-secondary" href="#features">Explore features</a>
+                    </div>
+
+                    <div class="hero-points">
+                        <div class="mini-stat">
+                            <strong>PDF</strong>
+                            <span>Instant study material</span>
+                        </div>
+                        <div class="mini-stat">
+                            <strong>AI</strong>
+                            <span>Memorization support</span>
+                        </div>
+                        <div class="mini-stat">
+                            <strong>Quiz</strong>
+                            <span>Practice with confidence</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual" aria-label="Robot illustration">
+                    <div class="robot-scene">
+                        <div class="glow"></div>
+                        <div class="robot" aria-hidden="true">
+                            <div class="antenna"></div>
+                            <div class="head">
+                                <div class="face">
+                                    <div class="eyes">
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    <div class="mouth"></div>
+                                </div>
+                            </div>
+                            <div class="arm left"></div>
+                            <div class="arm right"></div>
+                            <div class="body">
+                                <div class="panel">AI</div>
+                            </div>
+                            <div class="leg left"></div>
+                            <div class="leg right"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <div class="container">
+                <div class="section-head">
+                    <h2>Everything your learning routine needs</h2>
+                    <p>
+                        AI Study Assistant reads your PDF, extracts key concepts, and turns them into a
+                        study system that helps you remember more and test yourself regularly.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="card">
+                        <div class="feature-icon">📄</div>
+                        <h3>PDF Upload</h3>
+                        <p>
+                            Drop in a chapter, article, lecture notes, or textbook section and let the AI
+                            analyze the content in seconds.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>Memory Booster</h3>
+                        <p>
+                            The system simplifies difficult topics into key ideas, recall prompts, and quick
+                            summaries designed for better retention.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <div class="feature-icon">✅</div>
+                        <h3>Quiz Practice</h3>
+                        <p>
+                            Test yourself with smart questions that adapt to your level and reinforce what you
+                            still need to remember.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section alt">
+            <div class="container">
+                <div class="section-head">
+                    <h2>How it works</h2>
+                    <p>
+                        A simple flow that turns passive reading into active learning and stronger memory.
+                    </p>
+                </div>
+
+                <div class="flow">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Upload your PDF</h4>
+                        <p>Share the subject material you want to study, revise, or memorize.</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>AI breaks it down</h4>
+                        <p>It extracts highlights, explains ideas, and builds memory-friendly revision content.</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Quiz and recall</h4>
+                        <p>Practice with personalized quizzes that check what you know and what needs review.</p>
+                    </div>
+                </div>
+
+                <div class="cta-wrap">
+                    <div class="cta-box">
+                        <h3>Study less. Remember more.</h3>
+                        <p>
+                            With AI Study Assistant, you can turn your class PDFs into a quick, effective
+                            revision system that helps you understand better and perform smarter on every quiz.
+                        </p>
+                        <a class="btn btn-primary" href="/login">Start learning now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        © 2026 AI Study Assistant. Learn smarter with every PDF.
+    </footer>
+
+    <script>
+        const navActions = document.querySelector(".nav-actions");
+        const backendUrl = "http://127.0.0.1:5000";
+        const apiUrl = window.location.port === "5000"
+            ? "/api"
+            : `${backendUrl}/api`;
+
+        async function loadSessionNavigation() {
+            try {
+                const response = await fetch(`${apiUrl}/me`, {
+                    credentials: "include"
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const result = await response.json();
+                const firstName = result.user.full_name.split(" ")[0];
+                navActions.innerHTML = `
+                    <a class="btn btn-secondary" href="/dashboard">Hi, ${firstName}</a>
+                    <button class="btn btn-primary" type="button" id="logout-button">Log out</button>
+                `;
+
+                document.getElementById("logout-button").addEventListener("click", async () => {
+                    await fetch(`${apiUrl}/logout`, {
+                        method: "POST",
+                        credentials: "include"
+                    });
+                    window.location.href = "/";
+                });
+            } catch (error) {
+                console.error("Unable to load session:", error);
+            }
+        }
+
+        loadSessionNavigation();
+    </script>
+</body>
+</html>

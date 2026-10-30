@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Study Assistant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eaf3ff;
+            color: #0b1f3a;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .topbar {
+            background: #071a2f;
+            color: white;
+            padding: 18px 0;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: #66d9ff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #dfeeff;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border: 0;
+            border-radius: 999px;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #66d9ff;
+            color: #06182f;
+        }
+
+        .btn-primary:hover {
+            background: #3fc8f5;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #071a2f 0%, #0d2340 50%, #123d75 100%);
+            color: white;
+            padding: 90px 0 110px;
+        }
+
+        .hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 560px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(102, 217, 255, 0.12);
+            border: 1px solid rgba(102, 217, 255, 0.35);
+            color: #9feaff;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            line-height: 1.1;
+            margin: 0 0 18px;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-text p {
+            font-size: 1.08rem;
+            color: #d7ebff;
+            margin: 0 0 28px;
+            line-height: 1.7;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta-row .btn-primary {
+            background: #66d9ff;
+            color: #06182f;
+        }
+
+        .cta-row .btn-secondary {
+            border-color: rgba(255,255,255,0.4);
+            color: white;
+        }
+
+        .hero-card {
+            flex: 0.9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 26px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+            backdrop-filter: blur(8px);
+        }
+
+        .mini-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #d7ebff;
+            margin-bottom: 18px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.7);
+        }
+
+        .card-box {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .stat {
+            flex: 1;
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 18px 14px;
+            text-align: center;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .stat span {
+            font-size: 0.75rem;
+            color: #d7ebff;
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .cta-row {
+                justify-content: center;
+            }
+
+            .nav {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 540px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="container nav">
+            <a class="logo" href="/">AI <span>Study</span></a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="/">Home</a>
+                <a href="/about#features">Features</a>
+                <a href="/dashboard">Courses</a>
+                <a href="/about">About</a>
+            </nav>
+
+            <div class="nav-actions" id="nav-actions">
+                <a href="/login" class="btn btn-secondary">Login</a>
+                <a href="/register" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-inner">
+                <div class="hero-text">
+                    <div class="tag">Smart learning</div>
+                    <h1>Study smarter with your AI assistant.</h1>
+                    <p>
+                        Learn faster, stay organized, and get personalized help with lessons,
+                        notes, quizzes, and instant explanations built for your success.
+                    </p>
+
+                    <div class="cta-row">
+                        <a href="/dashboard" class="btn btn-secondary">Start Learning</a>
+                        <a href="/about#how-it-works" class="btn btn-secondary">Watch Demo</a>
+                    </div>
+                </div>
+
+                <div class="hero-card">
+                    <div class="dashboard">
+                        <div class="mini-header">
+                            <span>Study Dashboard</span>
+                            <div class="dots">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                        </div>
+
+                        <div class="card-box">
+                            <strong>Today's Focus</strong><br />
+                            <span>AI-powered revision plan</span>
+                        </div>
+
+                        <div class="card-box">
+                            <strong>Progress</strong><br />
+                            <span>76% completion this week</span>
+                        </div>
+
+                        <div class="stat-row">
+                            <div class="stat">
+                                <strong>12</strong>
+                                <span>Lessons</span>
+                            </div>
+                            <div class="stat">
+                                <strong>4.9</strong>
+                                <span>Rating</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

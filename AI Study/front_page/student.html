@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard | AI Study</title>
+    <style>
+        :root { --ink:#172033; --muted:#6b7890; --line:#e7edf5; --blue:#2563eb; --navy:#102a56; --surface:#fff; --bg:#f4f7fb; }
+        * { box-sizing:border-box; }
+        body { margin:0; color:var(--ink); background:var(--bg); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+        button,input { font:inherit; }
+        button { cursor:pointer; }
+        .app { display:grid; grid-template-columns:250px 1fr; min-height:100vh; }
+        aside { padding:28px 18px; color:#dce9ff; background:linear-gradient(180deg,#071a2f,#123d75); }
+        .brand { display:flex; gap:10px; align-items:center; padding:0 12px 42px; color:white; font-size:1.35rem; font-weight:800; }
+        .brand-mark { display:grid; place-items:center; width:38px; height:38px; border-radius:12px; color:var(--navy); background:#66d9ff; }
+        nav { display:grid; gap:8px; }
+        nav button { border:0; border-radius:12px; padding:13px 14px; color:inherit; background:transparent; text-align:left; }
+        nav button:hover,nav button.active { color:white; background:rgba(255,255,255,.14); }
+        .sidebar-footer { margin-top:auto; padding:20px 12px 0; color:#a9bfdf; font-size:.84rem; line-height:1.5; }
+        main { min-width:0; padding:28px 4vw 50px; }
+        header { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:30px; }
+        .eyebrow { margin:0 0 5px; color:var(--blue); font-size:.82rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+        h1,h2,h3,p { margin-top:0; } h1 { margin-bottom:6px; font-size:clamp(1.7rem,3vw,2.4rem); } header p { margin:0; color:var(--muted); }
+        .header-actions { display:flex; gap:10px; align-items:center; }
+        .search { width:min(250px,35vw); border:1px solid var(--line); border-radius:12px; padding:11px 14px; background:white; outline:none; }
+        .search:focus { border-color:var(--blue); box-shadow:0 0 0 3px #2563eb1c; }
+        .avatar { display:grid; place-items:center; width:42px; height:42px; border-radius:50%; color:white; background:var(--blue); font-weight:800; }
+        .grid { display:grid; gap:18px; }
+        .stats { grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:24px; }
+        .card { border:1px solid var(--line); border-radius:18px; padding:20px; background:var(--surface); box-shadow:0 8px 26px #162b4c08; }
+        .stat-card { display:flex; justify-content:space-between; align-items:flex-start; }
+        .stat-card span { color:var(--muted); font-size:.87rem; } .stat-card strong { display:block; margin-top:8px; font-size:1.8rem; }
+        .stat-icon { display:grid; place-items:center; width:38px; height:38px; border-radius:12px; color:var(--blue); background:#eff6ff; }
+        .content { grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr); align-items:start; }
+        .section-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:17px; }
+        .section-head h2 { margin:0; font-size:1.12rem; } .link-btn { border:0; color:var(--blue); background:transparent; font-weight:700; }
+        .course-list { display:grid; gap:13px; }
+        .course { display:grid; grid-template-columns:48px 1fr auto; gap:14px; align-items:center; padding:14px; border:1px solid var(--line); border-radius:14px; }
+        .course-icon { display:grid; place-items:center; width:48px; height:48px; border-radius:14px; color:white; font-weight:800; }
+        .course-icon.violet { background:#7c3aed; } .course-icon.blue { background:#2563eb; } .course-icon.orange { background:#f97316; }
+        .course h3 { margin:0 0 4px; font-size:.98rem; } .course small { color:var(--muted); }
+        .bar { width:125px; height:8px; margin-top:9px; overflow:hidden; border-radius:99px; background:#edf1f7; } .bar i { display:block; height:100%; border-radius:inherit; background:var(--blue); }
+        .percent { font-weight:800; color:var(--blue); font-size:.9rem; }
+        .tasks { display:grid; gap:10px; } .task { display:flex; gap:11px; align-items:flex-start; padding:12px; border-radius:12px; background:#f8fafc; }
+        .task input { margin-top:3px; accent-color:var(--blue); } .task label { flex:1; font-size:.9rem; line-height:1.35; } .task small { display:block; margin-top:4px; color:var(--muted); } .task.done label { color:#8a95a7; text-decoration:line-through; }
+        .empty { color:var(--muted); text-align:center; padding:15px; }
+        .ai-answer { min-height:72px; margin:0 0 14px; padding:13px; white-space:pre-wrap; border-radius:12px; color:var(--ink); background:#f8fafc; line-height:1.55; }
+        .ai-form { display:flex; gap:10px; } .ai-form textarea { flex:1; min-width:0; resize:vertical; border:1px solid var(--line); border-radius:12px; padding:12px; outline:none; font:inherit; }
+        .ai-form textarea:focus { border-color:var(--blue); box-shadow:0 0 0 3px #2563eb1c; } .primary-btn { border:0; border-radius:12px; padding:10px 16px; color:white; background:var(--blue); font-weight:700; } .primary-btn:disabled { opacity:.6; cursor:wait; }
+        .toast { position:fixed; right:22px; bottom:22px; display:none; padding:13px 17px; border-radius:12px; color:white; background:#172033; box-shadow:0 10px 30px #17203333; }
+        .toast.show { display:block; }
+        @media (max-width:900px) { .app { grid-template-columns:76px 1fr; } aside { padding:22px 10px; } .brand { justify-content:center; padding:0 0 35px; } .brand-name,.sidebar-footer { display:none; } nav button { text-align:center; font-size:0; } nav button::first-letter { font-size:1.2rem; } .stats { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:620px) { .app { display:block; } aside { padding:12px; } .brand { justify-content:flex-start; padding:0 8px 12px; } .brand-name { display:block; } nav { display:flex; overflow:auto; } nav button { min-width:105px; font-size:.8rem; text-align:center; } main { padding:22px 16px 40px; } header { align-items:flex-start; flex-direction:column; } .header-actions { width:100%; } .search { width:100%; } .content { grid-template-columns:1fr; } .course { grid-template-columns:42px 1fr; } .course-icon { width:42px; height:42px; } .percent { grid-column:2; } .bar { width:100%; } }
+    </style>
+</head>
+<body>
+<div class="app">
+    <aside>
+        <div class="brand"><span class="brand-mark">AI</span><span class="brand-name">AI Study</span></div>
+        <nav aria-label="Dashboard navigation">
+            <button class="active" data-section="overview">⌂ &nbsp; Overview</button>
+            <button data-section="courses">▣ &nbsp; My courses</button>
+            <button data-section="tasks">✓ &nbsp; Tasks</button>
+            <button data-section="ai">✦ &nbsp; AI Assistant</button>
+            <button data-section="notes">▤ &nbsp; Notes</button>
+        </nav>
+        <div class="sidebar-footer">Your personal learning space.<br />Keep going, one lesson at a time.</div>
+    </aside>
+    <main>
+        <header>
+            <div><p class="eyebrow">Student dashboard</p><h1>Good morning, <span id="student-name">student</span>!</h1><p>Here is your learning progress for today.</p></div>
+            <div class="header-actions"><input class="search" id="search" type="search" placeholder="Search courses..." /><div class="avatar" id="avatar">S</div><button class="link-btn" id="logout">Log out</button></div>
+        </header>
+        <section class="grid stats" aria-label="Your statistics">
+            <div class="card stat-card"><div><span>Weekly progress</span><strong id="weekly-progress">—</strong></div><div class="stat-icon">↗</div></div>
+            <div class="card stat-card"><div><span>Study hours</span><strong id="study-hours">—</strong></div><div class="stat-icon">◷</div></div>
+            <div class="card stat-card"><div><span>Tasks completed</span><strong id="completed-tasks">—</strong></div><div class="stat-icon">✓</div></div>
+            <div class="card stat-card"><div><span>Day streak</span><strong id="streak">—</strong></div><div class="stat-icon">★</div></div>
+        </section>
+        <section class="grid content">
+            <div class="card" id="courses-panel"><div class="section-head"><h2>Continue learning</h2><button class="link-btn" id="view-all">View all</button></div><div class="course-list" id="course-list"><div class="empty">Loading your courses...</div></div></div>
+            <div class="card" id="tasks-panel"><div class="section-head"><h2>Upcoming tasks</h2><button class="link-btn" id="add-task">+ Add</button></div><div class="tasks" id="task-list"><div class="empty">Loading your tasks...</div></div></div>
+        </section>
+        <section class="card" id="ai-panel" style="margin-top:18px">
+            <div class="section-head"><h2>AI Study Assistant</h2><span style="color:var(--muted);font-size:.85rem">Ask a study question</span></div>
+            <p class="ai-answer" id="ai-answer">Ask me to explain a topic, create a quiz, or help you make a study plan.</p>
+            <form class="ai-form" id="ai-form">
+                <textarea id="ai-question" rows="2" maxlength="2000" placeholder="For example: Explain photosynthesis in simple words"></textarea>
+                <button class="primary-btn" id="ai-submit" type="submit">Ask AI</button>
+            </form>
+        </section>
+        <section class="card" id="notes-panel" style="margin-top:18px"><div class="section-head"><h2>Quick notes</h2><button class="link-btn" id="save-note">Save note</button></div><textarea id="note" rows="3" placeholder="Write a reminder for your next study session..." style="width:100%;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:12px;outline:none"></textarea></section>
+    </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+    const api = "/api";
+    const $ = (id) => document.getElementById(id);
+    let dashboard;
+    const initials = (name) => name.split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase();
+    const toast = (message) => { $("toast").textContent = message; $("toast").classList.add("show"); setTimeout(() => $("toast").classList.remove("show"), 2200); };
+    function renderCourses(filter = "") {
+        const courses = dashboard.courses.filter((course) => `${course.title} ${course.category}`.toLowerCase().includes(filter.toLowerCase()));
+        $("course-list").innerHTML = courses.length ? courses.map((course) => `<article class="course"><div class="course-icon ${course.color}">${course.title[0]}</div><div><h3>${course.title}</h3><small>${course.category} · ${course.lessons} lessons</small><div class="bar"><i style="width:${course.progress}%"></i></div></div><span class="percent">${course.progress}%</span></article>`).join("") : '<div class="empty">No courses match your search.</div>';
+    }
+    function renderTasks() {
+        $("task-list").innerHTML = dashboard.tasks.map((task) => `<div class="task ${task.done ? "done" : ""}"><input type="checkbox" ${task.done ? "checked" : ""} data-task="${task.id}" /><label>${task.title}<small>${task.course} · Due ${task.due}</small></label></div>`).join("");
+    }
+    async function loadDashboard() {
+        const response = await fetch(`${api}/dashboard`, { credentials: "include" });
+        if (response.status === 401) { window.location.href = "/login"; return; }
+        if (!response.ok) throw new Error("Unable to load dashboard.");
+        dashboard = await response.json();
+        const firstName = dashboard.user.full_name.split(/\s+/)[0];
+        $("student-name").textContent = firstName;
+        $("avatar").textContent = initials(dashboard.user.full_name);
+        $("weekly-progress").textContent = `${dashboard.stats.weekly_progress}%`;
+        $("study-hours").textContent = `${dashboard.stats.study_hours}h`;
+        $("completed-tasks").textContent = dashboard.stats.completed_tasks;
+        $("streak").textContent = `${dashboard.stats.streak} days`;
+        renderCourses(); renderTasks();
+    }
+    $("search").addEventListener("input", (event) => renderCourses(event.target.value));
+    $("task-list").addEventListener("change", (event) => { const task = dashboard.tasks.find((item) => item.id === Number(event.target.dataset.task)); if (task) { task.done = event.target.checked; event.target.closest(".task").classList.toggle("done", task.done); toast(task.done ? "Task completed!" : "Task reopened."); } });
+    $("save-note").addEventListener("click", () => { localStorage.setItem(`ai-study-note-${dashboard.user.id}`, $("note").value); toast("Note saved."); });
+    $("ai-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const question = $("ai-question").value.trim();
+        if (!question) { toast("Type a question first."); return; }
+        $("ai-submit").disabled = true;
+        $("ai-answer").textContent = "Thinking...";
+        try {
+            const response = await fetch(`${api}/ai/ask`, { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question }) });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || "Unable to contact the AI assistant.");
+            $("ai-answer").textContent = result.answer;
+            $("ai-question").value = "";
+        } catch (error) {
+            $("ai-answer").textContent = error.message;
+        } finally {
+            $("ai-submit").disabled = false;
+        }
+    });
+    $("logout").addEventListener("click", async () => { await fetch(`${api}/logout`, { method: "POST", credentials: "include" }); window.location.href = "/login"; });
+    $("add-task").addEventListener("click", () => { const title = prompt("What do you need to do?"); if (title && title.trim()) { dashboard.tasks.push({ id: Date.now(), title: title.trim(), course: "Personal task", due: "Today", done: false }); renderTasks(); toast("Task added."); } });
+    document.querySelectorAll("nav button").forEach((button) => button.addEventListener("click", () => { document.querySelectorAll("nav button").forEach((item) => item.classList.remove("active")); button.classList.add("active"); const target = button.dataset.section === "courses" ? "courses-panel" : button.dataset.section === "tasks" ? "tasks-panel" : button.dataset.section === "ai" ? "ai-panel" : button.dataset.section === "notes" ? "notes-panel" : null; if (target) $(target).scrollIntoView({ behavior: "smooth" }); }));
+    loadDashboard().then(() => { $("note").value = localStorage.getItem(`ai-study-note-${dashboard.user.id}`) || ""; }).catch((error) => { $("student-name").textContent = "there"; toast(error.message); });
+</script>
+</body>
+</html>
